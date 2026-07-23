@@ -7,7 +7,59 @@ export type NotificationType =
   | "application_accepted"
   | "application_rejected"
   | "application_withdrawn"
-  | "party_expired";
+  | "party_expired"
+  | "support_reply";
+
+export type SupportTicketType =
+  | "question"
+  | "bug"
+  | "feature_request"
+  | "compliment"
+  | "complaint"
+  | "report_related"
+  | "account_issue"
+  | "other";
+
+export type SupportTicketStatus = "open" | "in_review" | "in_progress" | "resolved" | "closed";
+
+export const SUPPORT_TICKET_TYPE_LABEL: Record<SupportTicketType, string> = {
+  question: "질문",
+  bug: "버그 제보",
+  feature_request: "기능 제안",
+  compliment: "칭찬",
+  complaint: "불만사항",
+  report_related: "신고 관련",
+  account_issue: "계정 문제",
+  other: "기타",
+};
+
+export const SUPPORT_TICKET_STATUS_LABEL: Record<SupportTicketStatus, string> = {
+  open: "접수 완료",
+  in_review: "검토 중",
+  in_progress: "개발팀 확인 중",
+  resolved: "해결 완료",
+  closed: "종료",
+};
+
+export const SUPPORT_TICKET_STATUS_EMOJI: Record<SupportTicketStatus, string> = {
+  open: "🟢",
+  in_review: "🟡",
+  in_progress: "🔵",
+  resolved: "🟢",
+  closed: "⚫",
+};
+
+export const SUPPORT_TICKET_STATUS_ORDER: SupportTicketStatus[] = [
+  "open",
+  "in_review",
+  "in_progress",
+  "resolved",
+  "closed",
+];
+
+export const SUPPORT_ATTACHMENT_ACCEPT = "image/jpeg,image/png,image/gif,application/pdf";
+export const SUPPORT_ATTACHMENT_MAX_BYTES = 10 * 1024 * 1024;
+export const SUPPORT_ATTACHMENT_MAX_FILES = 5;
 
 export type ReplayIntent = "yes" | "neutral" | "no";
 
@@ -118,6 +170,23 @@ export interface Database {
           bio?: string | null;
         };
         Relationships: [];
+      };
+      admins: {
+        Row: {
+          user_id: string;
+          granted_at: string;
+        };
+        Insert: never;
+        Update: never;
+        Relationships: [
+          {
+            foreignKeyName: "admins_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: true;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       games: {
         Row: {
@@ -315,6 +384,7 @@ export interface Database {
           user_id: string;
           type: string;
           party_id: string | null;
+          support_ticket_id: string | null;
           actor_id: string | null;
           read_at: string | null;
           created_at: string;
@@ -336,6 +406,168 @@ export interface Database {
             columns: ["actor_id"];
             isOneToOne: false;
             referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "notifications_support_ticket_id_fkey";
+            columns: ["support_ticket_id"];
+            isOneToOne: false;
+            referencedRelation: "support_tickets";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      support_tickets: {
+        Row: {
+          id: string;
+          ticket_number: number;
+          user_id: string | null;
+          email: string;
+          ticket_type: SupportTicketType;
+          subject: string;
+          content: string;
+          status: SupportTicketStatus;
+          assignee_id: string | null;
+          internal_note: string | null;
+          admin_notified: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string | null;
+          email: string;
+          ticket_type: SupportTicketType;
+          subject: string;
+          content: string;
+        };
+        Update: {
+          status?: SupportTicketStatus;
+          assignee_id?: string | null;
+          internal_note?: string | null;
+          admin_notified?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "support_tickets_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "support_tickets_assignee_id_fkey";
+            columns: ["assignee_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      support_attachments: {
+        Row: {
+          id: string;
+          ticket_id: string;
+          file_path: string;
+          file_name: string;
+          file_size: number;
+          mime_type: string;
+          created_at: string;
+        };
+        Insert: {
+          ticket_id: string;
+          file_path: string;
+          file_name: string;
+          file_size: number;
+          mime_type: string;
+        };
+        Update: never;
+        Relationships: [
+          {
+            foreignKeyName: "support_attachments_ticket_id_fkey";
+            columns: ["ticket_id"];
+            isOneToOne: false;
+            referencedRelation: "support_tickets";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      support_replies: {
+        Row: {
+          id: string;
+          ticket_id: string;
+          author_id: string;
+          body: string;
+          email_sent: boolean;
+          created_at: string;
+        };
+        Insert: {
+          ticket_id: string;
+          author_id: string;
+          body: string;
+        };
+        Update: {
+          email_sent?: boolean;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "support_replies_ticket_id_fkey";
+            columns: ["ticket_id"];
+            isOneToOne: false;
+            referencedRelation: "support_tickets";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "support_replies_author_id_fkey";
+            columns: ["author_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      support_history: {
+        Row: {
+          id: string;
+          ticket_id: string;
+          actor_id: string | null;
+          event_type: string;
+          description: string;
+          metadata: Record<string, unknown> | null;
+          created_at: string;
+        };
+        Insert: never;
+        Update: never;
+        Relationships: [
+          {
+            foreignKeyName: "support_history_ticket_id_fkey";
+            columns: ["ticket_id"];
+            isOneToOne: false;
+            referencedRelation: "support_tickets";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      support_feedback: {
+        Row: {
+          id: string;
+          ticket_id: string;
+          helpful: boolean;
+          comment: string | null;
+          created_at: string;
+        };
+        Insert: {
+          ticket_id: string;
+          helpful: boolean;
+          comment?: string | null;
+        };
+        Update: never;
+        Relationships: [
+          {
+            foreignKeyName: "support_feedback_ticket_id_fkey";
+            columns: ["ticket_id"];
+            isOneToOne: false;
+            referencedRelation: "support_tickets";
             referencedColumns: ["id"];
           },
         ];
@@ -428,6 +660,17 @@ export interface Database {
       is_admin: {
         Args: Record<string, never>;
         Returns: boolean;
+      };
+      get_support_dashboard_stats: {
+        Args: Record<string, never>;
+        Returns: {
+          today_created: number;
+          unresolved: number;
+          in_progress: number;
+          today_resolved: number;
+          avg_resolution_hours: number | null;
+          week_satisfaction_pct: number | null;
+        }[];
       };
     };
     Enums: Record<string, never>;

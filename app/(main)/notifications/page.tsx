@@ -25,7 +25,7 @@ export default async function NotificationsPage() {
   const { data: notifications } = await supabase
     .from("notifications")
     .select(
-      "id, type, party_id, read_at, created_at, party:parties(title), actor:profiles!notifications_actor_id_fkey(nickname)"
+      "id, type, party_id, support_ticket_id, read_at, created_at, party:parties(title), support_ticket:support_tickets(subject), actor:profiles!notifications_actor_id_fkey(nickname)"
     )
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
@@ -44,18 +44,28 @@ export default async function NotificationsPage() {
         <ul className="space-y-2">
           {notifications.map((n) => {
             const party = n.party as unknown as { title: string } | null;
+            const supportTicket = n.support_ticket as unknown as { subject: string } | null;
             const actor = n.actor as unknown as { nickname: string } | null;
             const wasUnread = unreadIds.includes(n.id);
+            const href = n.support_ticket_id
+              ? `/my/support/${n.support_ticket_id}`
+              : n.party_id
+                ? `/parties/${n.party_id}`
+                : "#";
             return (
               <li key={n.id}>
                 <Link
-                  href={n.party_id ? `/parties/${n.party_id}` : "#"}
+                  href={href}
                   className={`block rounded-lg border p-3 text-sm transition-colors hover:bg-accent ${
                     wasUnread ? "border-primary/40 bg-primary/5" : ""
                   }`}
                 >
                   <p>
-                    {notificationMessage(n.type as NotificationType, party?.title ?? "삭제된 파티", actor?.nickname ?? null)}
+                    {notificationMessage(n.type as NotificationType, {
+                      partyTitle: party?.title,
+                      actorNickname: actor?.nickname,
+                      supportSubject: supportTicket?.subject,
+                    })}
                   </p>
                   <p className="mt-1 text-xs text-muted-foreground">{formatRelativeTime(n.created_at)}</p>
                 </Link>

@@ -33,6 +33,9 @@ export async function SiteHeader() {
           <Button variant="ghost" nativeButton={false} render={<Link href="/parties/new" />}>
             모집글 작성
           </Button>
+          <Button variant="ghost" nativeButton={false} render={<Link href="/support" />}>
+            고객지원
+          </Button>
           {user && profile ? (
             <>
               {isAdmin && (

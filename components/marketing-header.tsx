@@ -18,6 +18,9 @@ export async function MarketingHeader() {
           </Button>
         </div>
         <nav className="flex items-center gap-2">
+          <Button variant="ghost" nativeButton={false} render={<Link href="/support" />}>
+            고객지원
+          </Button>
           <Button nativeButton={false} render={<Link href={primaryHref} />}>
             {user && profile ? "파티 탐색" : "시작하기"}
           </Button>
