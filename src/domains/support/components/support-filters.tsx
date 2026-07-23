@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { SUPPORT_TICKET_TYPE_LABEL, SUPPORT_TICKET_STATUS_LABEL } from "@/lib/supabase/types";
+import { SUPPORT_TICKET_TYPE_LABEL, SUPPORT_TICKET_STATUS_LABEL } from "@/domains/support/constants";
 
 const PERIOD_LABEL: Record<string, string> = {
   all: "전체 기간",

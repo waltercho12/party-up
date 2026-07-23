@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { getCurrentProfile } from "@/lib/get-current-profile";
 import { Button } from "@/components/ui/button";
-import { SupportTicketForm } from "./support-ticket-form";
+import { SupportTicketForm } from "@/domains/support/components/support-ticket-form";
 
 export default async function SupportPage() {
   const { user, profile } = await getCurrentProfile();

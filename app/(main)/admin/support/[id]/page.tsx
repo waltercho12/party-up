@@ -2,11 +2,9 @@ import { notFound } from "next/navigation";
 import { Paperclip } from "lucide-react";
 import { requireAdmin } from "@/lib/require-admin";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  SUPPORT_TICKET_TYPE_LABEL,
-  type SupportTicketType,
-} from "@/lib/supabase/types";
-import { AdminTicketActions } from "./admin-ticket-actions";
+import { SUPPORT_TICKET_TYPE_LABEL } from "@/domains/support/constants";
+import type { SupportTicketType } from "@/domains/support/types";
+import { AdminTicketActions } from "@/domains/support/components/admin-ticket-actions";
 
 function formatDateTime(iso: string) {
   return new Date(iso).toLocaleString("ko-KR", {

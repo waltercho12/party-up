@@ -2,14 +2,13 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/require-admin";
 import { Card, CardContent } from "@/components/ui/card";
 import { AdminTabs } from "../admin-tabs";
-import { SupportFilters } from "./support-filters";
+import { SupportFilters } from "@/domains/support/components/support-filters";
 import {
   SUPPORT_TICKET_TYPE_LABEL,
   SUPPORT_TICKET_STATUS_LABEL,
   SUPPORT_TICKET_STATUS_EMOJI,
-  type SupportTicketType,
-  type SupportTicketStatus,
-} from "@/lib/supabase/types";
+} from "@/domains/support/constants";
+import type { SupportTicketType, SupportTicketStatus } from "@/domains/support/types";
 
 function formatDateTime(iso: string) {
   return new Date(iso).toLocaleString("ko-KR", {

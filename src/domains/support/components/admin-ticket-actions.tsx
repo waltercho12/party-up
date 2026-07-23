@@ -15,10 +15,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  SUPPORT_TICKET_STATUS_LABEL,
-  type SupportTicketStatus,
-} from "@/lib/supabase/types";
+import { SUPPORT_TICKET_STATUS_LABEL } from "@/domains/support/constants";
+import type { SupportTicketStatus } from "@/domains/support/types";
 
 interface Reply {
   id: string;

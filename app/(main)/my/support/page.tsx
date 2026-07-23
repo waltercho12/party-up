@@ -7,9 +7,8 @@ import {
   SUPPORT_TICKET_TYPE_LABEL,
   SUPPORT_TICKET_STATUS_LABEL,
   SUPPORT_TICKET_STATUS_EMOJI,
-  type SupportTicketType,
-  type SupportTicketStatus,
-} from "@/lib/supabase/types";
+} from "@/domains/support/constants";
+import type { SupportTicketType, SupportTicketStatus } from "@/domains/support/types";
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric" });

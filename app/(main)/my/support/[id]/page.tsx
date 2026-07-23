@@ -8,10 +8,9 @@ import {
   SUPPORT_TICKET_STATUS_LABEL,
   SUPPORT_TICKET_STATUS_EMOJI,
   SUPPORT_TICKET_STATUS_ORDER,
-  type SupportTicketType,
-  type SupportTicketStatus,
-} from "@/lib/supabase/types";
-import { FeedbackForm } from "./feedback-form";
+} from "@/domains/support/constants";
+import type { SupportTicketType, SupportTicketStatus } from "@/domains/support/types";
+import { FeedbackForm } from "@/domains/support/components/feedback-form";
 
 function formatDateTime(iso: string) {
   return new Date(iso).toLocaleString("ko-KR", {

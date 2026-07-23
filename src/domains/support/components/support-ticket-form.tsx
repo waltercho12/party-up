@@ -23,8 +23,8 @@ import {
   SUPPORT_ATTACHMENT_ACCEPT,
   SUPPORT_ATTACHMENT_MAX_BYTES,
   SUPPORT_ATTACHMENT_MAX_FILES,
-  type SupportTicketType,
-} from "@/lib/supabase/types";
+} from "@/domains/support/constants";
+import type { SupportTicketType } from "@/domains/support/types";
 
 const TICKET_TYPES = Object.keys(SUPPORT_TICKET_TYPE_LABEL) as SupportTicketType[];
 const ALLOWED_MIME = new Set(SUPPORT_ATTACHMENT_ACCEPT.split(","));

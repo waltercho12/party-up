@@ -2,7 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { queryDb } from "@/lib/server-db";
 import { sendEmail } from "@/lib/email";
 import { isSameOrigin, checkRateLimit, clientIp } from "@/lib/api-security";
-import { SUPPORT_TICKET_TYPE_LABEL, type SupportTicketType } from "@/lib/supabase/types";
+import { SUPPORT_TICKET_TYPE_LABEL } from "@/domains/support/constants";
+import type { SupportTicketType } from "@/domains/support/types";
 
 interface TicketRow {
   ticket_number: string;
