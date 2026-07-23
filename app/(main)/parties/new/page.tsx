@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/get-current-profile";
 import { Button } from "@/components/ui/button";
-import { NewPartyForm } from "./new-party-form";
+import { NewPartyForm } from "@/domains/party/components/new-party-form";
 
 export default async function NewPartyPage() {
   const { user, profile } = await getCurrentProfile();

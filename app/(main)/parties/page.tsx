@@ -2,9 +2,9 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/get-current-profile";
 import { Button } from "@/components/ui/button";
-import { PartyCard, type PartyCardData } from "@/components/party-card";
-import { PartyFilters } from "./party-filters";
-import type { PartyStatus } from "@/lib/supabase/types";
+import { PartyCard, type PartyCardData } from "@/domains/party/components/party-card";
+import { PartyFilters } from "@/domains/party/components/party-filters";
+import type { PartyStatus } from "@/domains/party/types";
 
 export default async function PartiesPage({
   searchParams,

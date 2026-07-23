@@ -10,12 +10,12 @@ import {
   PARTY_STATUS_BADGE_VARIANT,
   PARTY_STATUS_LABEL,
   formatScheduledAt,
-} from "@/lib/party-labels";
-import { ApplyButton } from "./apply-button";
-import { LeaveOrCancelButton } from "./leave-or-cancel-button";
-import { HostApplicants, type Applicant } from "./host-applicants";
-import { PartyStatusControls } from "./party-status-controls";
-import { MannerEvaluationPanel, type Reviewee } from "./manner-evaluation-panel";
+} from "@/domains/party/constants";
+import { ApplyButton } from "@/domains/party/components/apply-button";
+import { LeaveOrCancelButton } from "@/domains/party/components/leave-or-cancel-button";
+import { HostApplicants, type Applicant } from "@/domains/party/components/host-applicants";
+import { PartyStatusControls } from "@/domains/party/components/party-status-controls";
+import { MannerEvaluationPanel, type Reviewee } from "@/domains/party/components/manner-evaluation-panel";
 
 export default async function PartyDetailPage({
   params,

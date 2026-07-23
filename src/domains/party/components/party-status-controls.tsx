@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
-import type { PartyStatus } from "@/lib/supabase/types";
+import type { PartyStatus } from "@/domains/party/types";
 
 export function PartyStatusControls({
   partyId,

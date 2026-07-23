@@ -1,4 +1,4 @@
-import type { PartyStatus } from "@/lib/supabase/types";
+import type { PartyStatus } from "@/domains/party/types";
 
 export const PARTY_STATUS_LABEL: Record<PartyStatus, string> = {
   recruiting: "모집중",

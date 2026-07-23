@@ -1,7 +1,6 @@
 import type { SupportTicketType, SupportTicketStatus } from "@/domains/support/types";
+import type { PartyStatus, MemberStatus } from "@/domains/party/types";
 
-export type PartyStatus = "recruiting" | "in_progress" | "completed" | "cancelled";
-export type MemberStatus = "pending" | "accepted" | "rejected" | "left" | "withdrawn";
 export type ReportStatus = "pending" | "reviewed" | "dismissed";
 export type ReputationTier = "traveler" | "mate" | "friend" | "guide" | "companion";
 export type NotificationType =

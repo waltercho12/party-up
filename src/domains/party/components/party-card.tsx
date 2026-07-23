@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import type { PartyStatus } from "@/lib/supabase/types";
-import { PARTY_STATUS_BADGE_VARIANT, PARTY_STATUS_LABEL, formatScheduledAt } from "@/lib/party-labels";
+import type { PartyStatus } from "@/domains/party/types";
+import { PARTY_STATUS_BADGE_VARIANT, PARTY_STATUS_LABEL, formatScheduledAt } from "@/domains/party/constants";
 
 export interface PartyCardData {
   id: string;

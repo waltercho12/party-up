@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { PARTY_STATUS_LABEL } from "@/lib/party-labels";
+import { PARTY_STATUS_LABEL } from "@/domains/party/constants";
 
 // Completed/cancelled parties aren't publicly browsable anymore (only the
 // host, participants, and admins can see them), so they're intentionally
