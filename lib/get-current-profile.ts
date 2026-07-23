@@ -1,0 +1,18 @@
+import { createClient } from "@/lib/supabase/server";
+
+export async function getCurrentProfile() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return { user: null, profile: null };
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("id, nickname, avatar_url, bio")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  return { user, profile };
+}
